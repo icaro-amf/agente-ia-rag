@@ -4,7 +4,7 @@ warnings.filterwarnings("ignore", category=DeprecationWarning)
 from langchain_community.document_loaders import PyPDFDirectoryLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_chroma.vectorstores import Chroma
-from langchain_huggingface import HuggingFaceEmbeddings
+from langchain_google_genai import GoogleGenerativeAIEmbeddings
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -29,17 +29,11 @@ def dividir_documentos(docs):
         add_start_index=True
     )
     chunks = separador_docs.split_documents(docs)
+    print(f"Documentos divididos em {len(chunks)} chunks.")
     return chunks
 
 def vetorizar_chunks(chunks):
-    embeddings = HuggingFaceEmbeddings(
-    model_name="sentence-transformers/all-MiniLM-L12-v2")
-
-    db = Chroma.from_documents(
-    chunks,
-    embeddings,
-    persist_directory="db")
-
+    db = Chroma.from_documents(chunks, GoogleGenerativeAIEmbeddings(model="gemini-embedding-001"), persist_directory="db")
     print("Base de dados criada com sucesso!")
 
 criar_db()
