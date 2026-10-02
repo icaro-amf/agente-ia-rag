@@ -48,8 +48,6 @@ def perguntar():
 
     if isinstance(texto_resposta, list):
         texto_resposta = texto_resposta[0]['text']
-    else:
-        texto_resposta = texto_resposta # Caso já venha como texto simples
         
     print("Resposta do modelo: ", texto_resposta)
 
