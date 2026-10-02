@@ -44,7 +44,13 @@ def perguntar():
     })
 
     modelo = ChatGoogleGenerativeAI(model="gemini-3.1-flash-lite", temperature=0.3)
-    texto_resposta = modelo.invoke(prompt)
-    print("Resposta do modelo:\n", texto_resposta)
+    texto_resposta = modelo.invoke(prompt).content
+
+    if isinstance(texto_resposta, list):
+        texto_resposta = texto_resposta[0]['text']
+    else:
+        texto_resposta = texto_resposta # Caso já venha como texto simples
+        
+    print("Resposta do modelo: ", texto_resposta)
 
 perguntar()
